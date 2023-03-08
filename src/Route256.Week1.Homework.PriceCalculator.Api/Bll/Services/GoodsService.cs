@@ -13,7 +13,7 @@ public sealed class GoodsService : IGoodsService
         new("Здоровенный ЯЗЬ", 4, 1000, 1000, 4000, 4000, 160),
         new("Билет МММ", 5, 3000, 2000, 1000, 5000, 180)
     };
-    
+
     public IEnumerable<GoodEntity> GetGoods()
     {
         var rnd = new Random();
@@ -32,7 +32,7 @@ public sealed class GoodsService : IGoodsService
             );
         }
     }
-    
+
     public record GoodModel(
         string Name,
         int Id,

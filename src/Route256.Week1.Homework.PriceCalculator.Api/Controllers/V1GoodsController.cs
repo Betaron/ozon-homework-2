@@ -24,7 +24,7 @@ public sealed class V1GoodsController
         _logger = logger;
         _repository = repository;
     }
-    
+
     [HttpGet]
     public ICollection<GoodEntity> GetAll()
     {
@@ -37,15 +37,15 @@ public sealed class V1GoodsController
         int id)
     {
         _logger.LogInformation(_httpContextAccessor.HttpContext.Request.Path);
-        
+
         var good = _repository.Get(id);
         var model = new GoodModel(
             good.Height,
             good.Length,
             good.Width,
             good.Weight);
-        
-        var price = priceCalculatorService.CalculatePrice(new []{ model });
+
+        var price = priceCalculatorService.CalculatePrice(new[] { model }, 1000);
         return new CalculateResponse(price);
     }
 }

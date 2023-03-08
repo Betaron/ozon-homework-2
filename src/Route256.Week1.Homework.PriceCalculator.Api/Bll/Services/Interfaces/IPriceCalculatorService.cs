@@ -4,7 +4,7 @@ namespace Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 
 public interface IPriceCalculatorService
 {
-    decimal CalculatePrice(IReadOnlyList<GoodModel> goods);
+    decimal CalculatePrice(IReadOnlyList<GoodModel> goods, int distance);
 
     CalculationLogModel[] QueryLog(int take);
 }
