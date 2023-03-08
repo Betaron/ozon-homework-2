@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Models.PriceCalculator;
+using Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Entities;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interfaces;
@@ -10,9 +11,9 @@ public class PriceCalculatorService : IPriceCalculatorService
 {
     private decimal _volumeToPriceRatio;
     private decimal _weightToPriceRatio;
-    
+
     private readonly IStorageRepository _storageRepository;
-    
+
     public PriceCalculatorService(
         IOptionsSnapshot<PriceCalculatorOptions> options,
         IStorageRepository storageRepository)
@@ -21,7 +22,7 @@ public class PriceCalculatorService : IPriceCalculatorService
         _weightToPriceRatio = options.Value.WeightToPriceRatio;
         _storageRepository = storageRepository;
     }
-    
+
     public decimal CalculatePrice(IReadOnlyList<GoodModel> goods)
     {
         if (!goods.Any())
@@ -33,13 +34,13 @@ public class PriceCalculatorService : IPriceCalculatorService
         var weightPrice = CalculatePriceByWeight(goods, out var weight);
 
         var resultPrice = Math.Max(volumePrice, weightPrice);
-        
+
         _storageRepository.Save(new StorageEntity(
             DateTime.UtcNow,
             volume,
             weight,
             resultPrice));
-        
+
         return resultPrice;
     }
 
@@ -53,7 +54,7 @@ public class PriceCalculatorService : IPriceCalculatorService
 
         return volume * _volumeToPriceRatio;
     }
-    
+
     private decimal CalculatePriceByWeight(
         IReadOnlyList<GoodModel> goods,
         out decimal weight)
@@ -71,7 +72,7 @@ public class PriceCalculatorService : IPriceCalculatorService
         {
             return Array.Empty<CalculationLogModel>();
         }
-        
+
         var log = _storageRepository.Query()
             .OrderByDescending(x => x.At)
             .Take(take)
@@ -79,7 +80,7 @@ public class PriceCalculatorService : IPriceCalculatorService
 
         return log
             .Select(x => new CalculationLogModel(
-                x.Volume, 
+                x.Volume,
                 x.Weight,
                 x.Price))
             .ToArray();
