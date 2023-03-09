@@ -40,6 +40,7 @@ public sealed class Startup
 			o.CustomSchemaIds(x => x.FullName);
 		});
 		services.AddScoped<IPriceCalculatorService, PriceCalculatorService>();
+		services.AddScoped<ITotalPriceCalculatorService, TotalPriceCalculatorService>();
 		services.AddHostedService<GoodsSyncHostedService>();
 
 		services.AddSingleton<IStorageRepository, StorageRepository>();
