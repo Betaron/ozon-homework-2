@@ -1,4 +1,5 @@
-﻿using Route256.Week1.Homework.PriceCalculator.Api.Bll.Models.PriceCalculator;
+﻿using FluentValidation;
+using Route256.Week1.Homework.PriceCalculator.Api.Bll.Models.PriceCalculator;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interfaces;
 
@@ -19,6 +20,9 @@ public class TotalPriceCalculatorService : ITotalPriceCalculatorService
 
 	public decimal CalculateTotalPrice(int goodId, int distance)
 	{
+		if (!_goodsRepository.Contains(goodId))
+			throw new ValidationException(message: $"Товара с id: '{goodId}' не существует");
+
 		var good = _goodsRepository.Get(goodId);
 		var model = new GoodModel(
 			good.Height,

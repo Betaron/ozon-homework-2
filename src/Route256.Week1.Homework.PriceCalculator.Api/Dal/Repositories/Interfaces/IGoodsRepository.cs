@@ -5,7 +5,7 @@ namespace Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interface
 public interface IGoodsRepository
 {
     void AddOrUpdate(GoodEntity entity);
-    
     ICollection<GoodEntity> GetAll();
     GoodEntity Get(int id);
+    bool Contains(int id);
 }
