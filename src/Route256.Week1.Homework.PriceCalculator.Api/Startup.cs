@@ -67,6 +67,7 @@ public sealed class Startup
 		});
 
 		app.UseMiddleware<ErrorMiddleware>();
+		app.UseMiddleware<TotalPriceLogMiddleware>();
 
 		app.UseEndpoints(endpoints =>
 		{
