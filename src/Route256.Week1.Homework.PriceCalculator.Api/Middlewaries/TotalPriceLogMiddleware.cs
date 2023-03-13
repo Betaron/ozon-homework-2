@@ -18,7 +18,8 @@ internal sealed class TotalPriceLogMiddleware
 
 	public async Task InvokeAsync(HttpContext context)
 	{
-		if (context.Request.Path.StartsWithSegments("/v1/V1OrderPrice/calculate-total"))
+		if (context.Request.Path.StartsWithSegments("/v1/V1OrderPrice/calculate-total")
+			&& context.Request.Method == "POST")
 		{
 			context.Request.Body.Position = 0;
 			var requestReader = new StreamReader(context.Request.Body);
