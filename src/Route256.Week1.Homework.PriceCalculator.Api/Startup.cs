@@ -1,4 +1,5 @@
 using System.Net;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Route256.Week1.Homework.PriceCalculator.Api.ActionFilters;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
@@ -38,6 +39,9 @@ public sealed class Startup
 		services.AddSwaggerGen(o =>
 		{
 			o.CustomSchemaIds(x => x.FullName);
+
+			var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+			o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 		});
 		services.AddScoped<IPriceCalculatorService, PriceCalculatorService>();
 		services.AddScoped<ITotalPriceCalculatorService, TotalPriceCalculatorService>();
