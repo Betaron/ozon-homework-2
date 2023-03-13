@@ -17,6 +17,12 @@ public class V1OrderPriceController : ControllerBase
 		_totalPriceCalculatorService = totalPriceCalculatorService;
 	}
 
+	/// <summary>
+	/// Вычисляет полную стоимость заказа.
+	/// Стоимость товара со склада + стоимость доставки этого товара,
+	/// основанная на характеристиках и расстоянии.
+	/// </summary>
+	/// <param name="request">Расстояние, Id товара в репозитории</param>
 	[HttpPost("calculate-total")]
 	public CalculateResponse CalculateTotal(CalculateTotalRequest request)
 	{

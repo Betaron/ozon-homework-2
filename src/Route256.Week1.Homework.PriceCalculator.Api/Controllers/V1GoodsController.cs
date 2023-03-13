@@ -26,12 +26,20 @@ public sealed class V1GoodsController
 		_repository = repository;
 	}
 
+	/// <summary>
+	/// ѕолучает информацию о каждом наименовании товара из репозитори€
+	/// </summary>
 	[HttpGet]
 	public ICollection<GoodEntity> GetAll()
 	{
 		return _repository.GetAll();
 	}
 
+	/// <summary>
+	/// ¬ычисл€ет стоимость доставки дл€ существующего наименовани€ товара
+	/// </summary>
+	/// <param name="id">»дентификатор товара в репозитории товаров</param>
+	/// <exception cref="ValidationException"></exception>
 	[HttpGet("calculate/{id}")]
 	public CalculateResponse Calculate(
 		[FromServices] IPriceCalculatorService priceCalculatorService,
