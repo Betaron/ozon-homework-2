@@ -34,8 +34,6 @@ public sealed class GoodsSyncHostedService : BackgroundService, IDisposable
 		base.Dispose();
 	}
 
-	~GoodsSyncHostedService() => Dispose();
-
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		while (!stoppingToken.IsCancellationRequested)
