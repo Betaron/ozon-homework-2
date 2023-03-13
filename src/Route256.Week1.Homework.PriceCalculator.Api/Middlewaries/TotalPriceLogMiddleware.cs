@@ -21,7 +21,8 @@ internal sealed class TotalPriceLogMiddleware
 		if (context.Request.Path.StartsWithSegments("/v1/V1OrderPrice/calculate-total"))
 		{
 			context.Request.Body.Position = 0;
-			var requestBodyContent = await new StreamReader(context.Request.Body).ReadToEndAsync();
+			var requestReader = new StreamReader(context.Request.Body);
+			var requestBodyContent = await requestReader.ReadToEndAsync();
 			context.Request.Body.Position = 0;
 
 			var requestInfo = new
@@ -37,6 +38,8 @@ internal sealed class TotalPriceLogMiddleware
 			context.Response.Body = responseStream;
 
 			await _next.Invoke(context);
+
+			requestReader.Close();
 
 			responseStream.Position = 0;
 			string responceBodyContent;
