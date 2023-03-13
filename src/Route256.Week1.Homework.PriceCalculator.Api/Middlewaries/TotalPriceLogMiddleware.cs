@@ -42,12 +42,14 @@ internal sealed class TotalPriceLogMiddleware
 			requestReader.Close();
 
 			responseStream.Position = 0;
-			string responceBodyContent;
-			using (var sr = new StreamReader(responseStream))
-				responceBodyContent = await sr.ReadToEndAsync();
+			var responseReader = new StreamReader(responseStream);
+			var responceBodyContent = await responseReader.ReadToEndAsync();
 
+			responseStream.Position = 0;
 			context.Response.Body = originalResponseBodyStream;
-			await context.Response.Body.WriteAsync(responseStream.ToArray());
+			await responseStream.CopyToAsync(context.Response.Body);
+
+			responseReader.Close();
 
 			var logMessage = new StringBuilder();
 
