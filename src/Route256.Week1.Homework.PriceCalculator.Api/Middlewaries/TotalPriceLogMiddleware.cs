@@ -33,7 +33,7 @@ internal sealed class TotalPriceLogMiddleware
 				Body = requestBodyContent
 			};
 
-			var originalResponceBodyStream = context.Response.Body;
+			var originalResponseBodyStream = context.Response.Body;
 			await using var responseStream = new MemoryStream();
 			context.Response.Body = responseStream;
 
@@ -46,7 +46,7 @@ internal sealed class TotalPriceLogMiddleware
 			using (var sr = new StreamReader(responseStream))
 				responceBodyContent = await sr.ReadToEndAsync();
 
-			context.Response.Body = originalResponceBodyStream;
+			context.Response.Body = originalResponseBodyStream;
 			await context.Response.Body.WriteAsync(responseStream.ToArray());
 
 			var logMessage = new StringBuilder();
@@ -58,7 +58,7 @@ internal sealed class TotalPriceLogMiddleware
 			foreach (var header in requestInfo.Headers)
 				logMessage.AppendLine($"\t\t{header.Key}: {header.Value}");
 			logMessage.AppendLine($"\tBody: {requestInfo.Body}");
-			logMessage.AppendLine($"Responce:");
+			logMessage.AppendLine($"Response:");
 			logMessage.AppendLine($"\tBody: {responceBodyContent}");
 
 			_logger.LogInformation(logMessage.ToString());
