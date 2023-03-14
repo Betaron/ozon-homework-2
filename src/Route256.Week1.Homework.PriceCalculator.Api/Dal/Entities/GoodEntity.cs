@@ -1,4 +1,4 @@
-namespace Route256.Week1.Homework.PriceCalculator.Api.Dal.Entities;
+﻿namespace Route256.Week1.Homework.PriceCalculator.Api.Dal.Entities;
 
 public sealed record GoodEntity(
     string Name,

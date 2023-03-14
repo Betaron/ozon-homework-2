@@ -1,4 +1,4 @@
-using FluentValidation;
+п»їusing FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Models.PriceCalculator;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
@@ -27,7 +27,7 @@ public sealed class V1GoodsController
 	}
 
 	/// <summary>
-	/// Получает информацию о каждом наименовании товара из репозитория
+	/// РџРѕР»СѓС‡Р°РµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РєР°Р¶РґРѕРј РЅР°РёРјРµРЅРѕРІР°РЅРёРё С‚РѕРІР°СЂР° РёР· СЂРµРїРѕР·РёС‚РѕСЂРёСЏ
 	/// </summary>
 	[HttpGet]
 	public ICollection<GoodEntity> GetAll()
@@ -36,9 +36,9 @@ public sealed class V1GoodsController
 	}
 
 	/// <summary>
-	/// Вычисляет стоимость доставки для существующего наименования товара
+	/// Р’С‹С‡РёСЃР»СЏРµС‚ СЃС‚РѕРёРјРѕСЃС‚СЊ РґРѕСЃС‚Р°РІРєРё РґР»СЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРіРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ С‚РѕРІР°СЂР°
 	/// </summary>
-	/// <param name="id">Идентификатор товара в репозитории товаров</param>
+	/// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚РѕРІР°СЂР° РІ СЂРµРїРѕР·РёС‚РѕСЂРёРё С‚РѕРІР°СЂРѕРІ</param>
 	/// <exception cref="ValidationException"></exception>
 	[HttpGet("calculate/{id}")]
 	public CalculateResponse Calculate(
@@ -48,7 +48,7 @@ public sealed class V1GoodsController
 		_logger.LogInformation(_httpContextAccessor.HttpContext.Request.Path);
 
 		if (!_repository.Contains(id))
-			throw new ValidationException(message: $"Товара с id: '{id}' не существует");
+			throw new ValidationException(message: $"РўРѕРІР°СЂР° СЃ id: '{id}' РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 
 		var good = _repository.Get(id);
 		var model = new GoodModel(

@@ -1,4 +1,4 @@
-namespace Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
+﻿namespace Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
 
 public sealed class PriceCalculatorOptions
 {

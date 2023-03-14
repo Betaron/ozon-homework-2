@@ -1,4 +1,4 @@
-namespace Route256.Week1.Homework.PriceCalculator.Api;
+﻿namespace Route256.Week1.Homework.PriceCalculator.Api;
 
 internal sealed class Program
 {
@@ -7,7 +7,7 @@ internal sealed class Program
         var builder = Host
             .CreateDefaultBuilder()
             .ConfigureWebHostDefaults(x => x.UseStartup<Startup>());
-        
+
         builder.Build().Run();
     }
 }

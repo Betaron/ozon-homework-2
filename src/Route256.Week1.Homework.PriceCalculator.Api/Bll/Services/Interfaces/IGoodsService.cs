@@ -1,11 +1,11 @@
-using Route256.Week1.Homework.PriceCalculator.Api.Dal.Entities;
+п»їusing Route256.Week1.Homework.PriceCalculator.Api.Dal.Entities;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 
 public interface IGoodsService
 {
     /// <summary>
-    /// Получает список товаров и остатки на складах.
+    /// РџРѕР»СѓС‡Р°РµС‚ СЃРїРёСЃРѕРє С‚РѕРІР°СЂРѕРІ Рё РѕСЃС‚Р°С‚РєРё РЅР° СЃРєР»Р°РґР°С….
     /// </summary>
     IEnumerable<GoodEntity> GetGoods();
 }

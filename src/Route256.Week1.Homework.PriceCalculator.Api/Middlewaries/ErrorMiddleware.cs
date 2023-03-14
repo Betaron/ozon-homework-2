@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using FluentValidation;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.Middlewaries;

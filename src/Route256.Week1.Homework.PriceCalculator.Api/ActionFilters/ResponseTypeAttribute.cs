@@ -1,14 +1,11 @@
-using Microsoft.AspNetCore.Http.Metadata;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Formatters;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.ActionFilters;
 
-internal sealed class ResponseTypeAttribute: ProducesResponseTypeAttribute
+internal sealed class ResponseTypeAttribute : ProducesResponseTypeAttribute
 {
-    public ResponseTypeAttribute(int statusCode) 
-        : base(typeof(ErrorResponse), statusCode)
-    {
-    }
+	public ResponseTypeAttribute(int statusCode)
+		: base(typeof(ErrorResponse), statusCode)
+	{
+	}
 }

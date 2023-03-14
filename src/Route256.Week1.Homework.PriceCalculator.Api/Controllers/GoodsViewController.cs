@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.ViewModels;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.Controllers;
 
-public sealed class GoodsViewController: Controller
+public sealed class GoodsViewController : Controller
 {
     private readonly IGoodsRepository _repository;
 
@@ -12,7 +12,7 @@ public sealed class GoodsViewController: Controller
     {
         _repository = repository;
     }
-    
+
     public IActionResult Index()
     {
         var entities = _repository.GetAll();
