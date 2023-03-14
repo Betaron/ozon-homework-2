@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Route256.Week1.Homework.PriceCalculator.Api.Attributes;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Requests.V1;
 using Route256.Week1.Homework.PriceCalculator.Api.Responses.V1;
@@ -24,6 +25,7 @@ public class V1OrderPriceController : ControllerBase
 	/// </summary>
 	/// <param name="request">Расстояние, Id товара в репозитории</param>
 	[HttpPost("calculate-total")]
+	[LogApiMethodInfo]
 	public CalculateResponse CalculateTotal(CalculateTotalRequest request)
 	{
 		return new(
