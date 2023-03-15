@@ -1,4 +1,4 @@
-﻿namespace Route256.Week1.Homework.PriceCalculator.Api;
+namespace Route256.Week1.Homework.PriceCalculator.Api;
 
 internal sealed class Program
 {

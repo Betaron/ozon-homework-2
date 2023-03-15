@@ -4,17 +4,17 @@ namespace Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 
 public interface IPriceCalculatorService
 {
-	/// <summary>
-	/// Вычисляет стоимость доставки основываясь на:
-	/// весе, объеме товаров, а также на расстоянии доставки.
-	/// </summary>
-	/// <param name="goods">Список доставляемых товаров</param>
-	/// <param name="distance">Расстояние, на которое доставляется товар</param>
-	decimal CalculatePrice(IReadOnlyList<GoodModel> goods, int distance);
+    /// <summary>
+    /// Р’С‹С‡РёСЃР»СЏРµС‚ СЃС‚РѕРёРјРѕСЃС‚СЊ РґРѕСЃС‚Р°РІРєРё РѕСЃРЅРѕРІС‹РІР°СЏСЃСЊ РЅР°:
+    /// РІРµСЃРµ, РѕР±СЉРµРјРµ С‚РѕРІР°СЂРѕРІ, Р° С‚Р°РєР¶Рµ РЅР° СЂР°СЃСЃС‚РѕСЏРЅРёРё РґРѕСЃС‚Р°РІРєРё.
+    /// </summary>
+    /// <param name="goods">РЎРїРёСЃРѕРє РґРѕСЃС‚Р°РІР»СЏРµРјС‹С… С‚РѕРІР°СЂРѕРІ</param>
+    /// <param name="distance">Р Р°СЃСЃС‚РѕСЏРЅРёРµ, РЅР° РєРѕС‚РѕСЂРѕРµ РґРѕСЃС‚Р°РІР»СЏРµС‚СЃСЏ С‚РѕРІР°СЂ</param>
+    decimal CalculatePrice(IReadOnlyList<GoodModel> goods, int distance);
 
-	/// <summary>
-	/// Делает запрос к хранилищу с логами расчетов стоимостей доставок.
-	/// </summary>
-	/// <param name="take">Количество возвращаемых записей из логов</param>
-	CalculationLogModel[] QueryLog(int take);
+    /// <summary>
+    /// Р”РµР»Р°РµС‚ Р·Р°РїСЂРѕСЃ Рє С…СЂР°РЅРёР»РёС‰Сѓ СЃ Р»РѕРіР°РјРё СЂР°СЃС‡РµС‚РѕРІ СЃС‚РѕРёРјРѕСЃС‚РµР№ РґРѕСЃС‚Р°РІРѕРє.
+    /// </summary>
+    /// <param name="take">РљРѕР»РёС‡РµСЃС‚РІРѕ РІРѕР·РІСЂР°С‰Р°РµРјС‹С… Р·Р°РїРёСЃРµР№ РёР· Р»РѕРіРѕРІ</param>
+    CalculationLogModel[] QueryLog(int take);
 }

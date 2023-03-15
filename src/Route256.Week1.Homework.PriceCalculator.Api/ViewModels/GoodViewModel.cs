@@ -1,4 +1,4 @@
-﻿namespace Route256.Week1.Homework.PriceCalculator.Api.ViewModels;
+namespace Route256.Week1.Homework.PriceCalculator.Api.ViewModels;
 
 
 public class GoodsPageViewModel

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.ViewModels;
 
