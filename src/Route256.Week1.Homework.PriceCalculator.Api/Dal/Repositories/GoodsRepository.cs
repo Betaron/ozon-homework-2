@@ -11,7 +11,7 @@ public sealed class GoodsRepository : IGoodsRepository
     {
         if (_store.ContainsKey(entity.Id))
             _store.Remove(entity.Id);
-        
+
         _store.Add(entity.Id, entity);
     }
 
@@ -21,4 +21,6 @@ public sealed class GoodsRepository : IGoodsRepository
     }
 
     public GoodEntity Get(int id) => _store[id];
+
+    public bool Contains(int id) => _store.ContainsKey(id);
 }

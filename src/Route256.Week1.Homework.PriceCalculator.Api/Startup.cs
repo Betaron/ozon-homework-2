@@ -1,8 +1,8 @@
 using System.Net;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Route256.Week1.Homework.PriceCalculator.Api.ActionFilters;
-using Route256.Week1.Homework.PriceCalculator.Api.Bll;
+using Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories;
@@ -20,7 +20,7 @@ public sealed class Startup
     {
         _configuration = configuration;
     }
-    
+
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMvc()
@@ -31,17 +31,22 @@ public sealed class Startup
                 x.Filters.Add(new ResponseTypeAttribute((int)HttpStatusCode.BadRequest));
                 x.Filters.Add(new ProducesResponseTypeAttribute((int)HttpStatusCode.OK));
             });
-        
+
         services.Configure<PriceCalculatorOptions>(_configuration.GetSection("PriceCalculatorOptions"));
+        services.Configure<GoodsSyncOptions>(_configuration.GetSection("GoodsSyncOptions"));
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(o =>
         {
             o.CustomSchemaIds(x => x.FullName);
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
         services.AddScoped<IPriceCalculatorService, PriceCalculatorService>();
+        services.AddScoped<ITotalPriceCalculatorService, TotalPriceCalculatorService>();
         services.AddHostedService<GoodsSyncHostedService>();
-        
+
         services.AddSingleton<IStorageRepository, StorageRepository>();
         services.AddSingleton<IGoodsRepository, GoodsRepository>();
         services.AddScoped<IGoodsService, GoodsService>();
@@ -66,7 +71,8 @@ public sealed class Startup
         });
 
         app.UseMiddleware<ErrorMiddleware>();
-        
+        app.UseMiddleware<TotalPriceLogMiddleware>();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

@@ -1,19 +1,37 @@
+using Microsoft.Extensions.Options;
+using Route256.Week1.Homework.PriceCalculator.Api.Bll.Options;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interfaces;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.HostedServices;
 
-public sealed class GoodsSyncHostedService: BackgroundService
+public sealed class GoodsSyncHostedService : BackgroundService, IDisposable
 {
     private readonly IGoodsRepository _repository;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IDisposable? _optionsChangeListner;
+
+    private double _stockSyncPeriod;
 
     public GoodsSyncHostedService(
         IGoodsRepository repository,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IOptionsMonitor<GoodsSyncOptions> options)
     {
         _repository = repository;
         _serviceProvider = serviceProvider;
+
+        _optionsChangeListner = options.OnChange(config =>
+        {
+            _stockSyncPeriod = config.StockSyncPeriod;
+        });
+        _stockSyncPeriod = options.CurrentValue.StockSyncPeriod;
+    }
+
+    public override void Dispose()
+    {
+        _optionsChangeListner?.Dispose();
+        base.Dispose();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -27,8 +45,8 @@ public sealed class GoodsSyncHostedService: BackgroundService
                 foreach (var good in goods)
                     _repository.AddOrUpdate(good);
             }
-            
-            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+
+            await Task.Delay(TimeSpan.FromSeconds(_stockSyncPeriod), stoppingToken);
         }
     }
 }

@@ -1,7 +1,5 @@
-using System.Text.Json;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Route256.Week1.Homework.PriceCalculator.Api.ActionFilters;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Models.PriceCalculator;
 using Route256.Week1.Homework.PriceCalculator.Api.Bll.Services.Interfaces;
 using Route256.Week1.Homework.PriceCalculator.Api.Requests.V2;
@@ -27,7 +25,7 @@ public class V2DeliveryPriceController : Controller
         _httpContextAccessor = httpContextAccessor;
         _priceCalculatorService = priceCalculatorService;
     }
-    
+
     /// <summary>
     /// Метод расчета стоимости доставки на основе объема товаров
     /// или веса товара. Окончательная стоимость принимается как наибольшая
@@ -51,8 +49,9 @@ public class V2DeliveryPriceController : Controller
                     x.Length,
                     x.Width,
                     x.Weight))
-                .ToArray());
-        
+                .ToArray()
+                , 1000 /* Расчет по умолчанию на 1км (1000м)*/);
+
         return new CalculateResponse(price);
     }
 }
