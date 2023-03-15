@@ -7,7 +7,7 @@ internal sealed class Program
         var builder = Host
             .CreateDefaultBuilder()
             .ConfigureWebHostDefaults(x => x.UseStartup<Startup>());
-        
+
         builder.Build().Run();
     }
 }

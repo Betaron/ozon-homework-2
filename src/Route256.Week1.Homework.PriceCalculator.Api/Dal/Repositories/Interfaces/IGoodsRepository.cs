@@ -4,26 +4,26 @@ namespace Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interface
 
 public interface IGoodsRepository
 {
-	/// <summary>
-	/// Добавляет или изменяет товар в хранилище.
-	/// </summary>
-	/// <param name="entity">Товар</param>
-	void AddOrUpdate(GoodEntity entity);
+    /// <summary>
+    /// Р”РѕР±Р°РІР»СЏРµС‚ РёР»Рё РёР·РјРµРЅСЏРµС‚ С‚РѕРІР°СЂ РІ С…СЂР°РЅРёР»РёС‰Рµ.
+    /// </summary>
+    /// <param name="entity">РўРѕРІР°СЂ</param>
+    void AddOrUpdate(GoodEntity entity);
 
-	/// <summary>
-	/// Получает все наименования товаров из хранилища.
-	/// </summary>
-	ICollection<GoodEntity> GetAll();
+    /// <summary>
+    /// РџРѕР»СѓС‡Р°РµС‚ РІСЃРµ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ С‚РѕРІР°СЂРѕРІ РёР· С…СЂР°РЅРёР»РёС‰Р°.
+    /// </summary>
+    ICollection<GoodEntity> GetAll();
 
-	/// <summary>
-	/// Получает товар с определенным идентификатором из хранилища.
-	/// </summary>
-	/// <param name="id">Идентификатор товара в хранилище</param>
-	GoodEntity Get(int id);
+    /// <summary>
+    /// РџРѕР»СѓС‡Р°РµС‚ С‚РѕРІР°СЂ СЃ РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј РёР· С…СЂР°РЅРёР»РёС‰Р°.
+    /// </summary>
+    /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚РѕРІР°СЂР° РІ С…СЂР°РЅРёР»РёС‰Рµ</param>
+    GoodEntity Get(int id);
 
-	/// <summary>
-	/// Определяет существование наименование товара в хранилище по id.
-	/// </summary>
-	/// <param name="id">Идентификатор товара в хранилище</param>
-	bool Contains(int id);
+    /// <summary>
+    /// РћРїСЂРµРґРµР»СЏРµС‚ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР° РІ С…СЂР°РЅРёР»РёС‰Рµ РїРѕ id.
+    /// </summary>
+    /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚РѕРІР°СЂР° РІ С…СЂР°РЅРёР»РёС‰Рµ</param>
+    bool Contains(int id);
 }

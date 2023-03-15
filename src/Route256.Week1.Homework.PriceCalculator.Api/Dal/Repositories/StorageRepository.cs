@@ -11,7 +11,7 @@ public class StorageRepository : IStorageRepository
     {
         _store = new List<StorageEntity>();
     }
-    
+
     public void Save(StorageEntity entity)
     {
         _store.Add(entity);

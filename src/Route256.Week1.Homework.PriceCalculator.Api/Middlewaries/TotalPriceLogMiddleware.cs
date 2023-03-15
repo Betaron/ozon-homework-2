@@ -1,74 +1,99 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Primitives;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.Middlewaries;
 
 internal sealed class TotalPriceLogMiddleware
 {
-	private readonly RequestDelegate _next;
-	private readonly ILogger<TotalPriceLogMiddleware> _logger;
+    private readonly RequestDelegate _next;
+    private readonly ILogger<TotalPriceLogMiddleware> _logger;
 
-	public TotalPriceLogMiddleware(
-		RequestDelegate next,
-		ILogger<TotalPriceLogMiddleware> logger)
-	{
-		_next = next;
-		_logger = logger;
-	}
+    public TotalPriceLogMiddleware(
+        RequestDelegate next,
+        ILogger<TotalPriceLogMiddleware> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
 
-	public async Task InvokeAsync(HttpContext context)
-	{
-		if (context.Request.Path.StartsWithSegments("/v1/V1OrderPrice/calculate-total")
-			&& context.Request.Method == "POST")
-		{
-			context.Request.Body.Position = 0;
-			var requestReader = new StreamReader(context.Request.Body);
-			var requestBodyContent = await requestReader.ReadToEndAsync();
-			context.Request.Body.Position = 0;
+    public async Task InvokeAsync(HttpContext context)
+    {
+        if (context.Request.Path.StartsWithSegments("/v1/V1OrderPrice/calculate-total")
+            && context.Request.Method == "POST")
+        {
+            await using var responceStream = new MemoryStream();
 
-			var requestInfo = new
-			{
-				Timestamp = DateTime.UtcNow.ToString(),
-				Url = context.Request.GetDisplayUrl(),
-				Headers = context.Request.Headers,
-				Body = requestBodyContent
-			};
+            var originalResponseBodyStream = context.Response.Body;
+            context.Response.Body = responceStream;
 
-			var originalResponseBodyStream = context.Response.Body;
-			await using var responseStream = new MemoryStream();
-			context.Response.Body = responseStream;
+            await _next.Invoke(context);
 
-			await _next.Invoke(context);
+            await Log(context.Request, context.Response);
 
-			requestReader.Close();
+            responceStream.Position = 0;
 
-			responseStream.Position = 0;
-			var responseReader = new StreamReader(responseStream);
-			var responceBodyContent = await responseReader.ReadToEndAsync();
+            await responceStream.CopyToAsync(originalResponseBodyStream);
+            context.Response.Body = originalResponseBodyStream;
+        }
+        else
+        {
+            await _next.Invoke(context);
+        }
+    }
 
-			responseStream.Position = 0;
-			context.Response.Body = originalResponseBodyStream;
-			await responseStream.CopyToAsync(context.Response.Body);
+    private static async Task<string> ReadStreamAsync(Stream stream)
+    {
+        var initialPosition = stream.Position;
 
-			responseReader.Close();
+        stream.Position = 0;
+        using var sr = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
+        var content = await sr.ReadToEndAsync();
 
-			var logMessage = new StringBuilder();
+        stream.Position = initialPosition;
 
-			logMessage.AppendLine($"{Environment.NewLine}Request: ");
-			logMessage.AppendLine($"\tTimestamp: {requestInfo.Timestamp}");
-			logMessage.AppendLine($"\tUrl: {requestInfo.Url}");
-			logMessage.AppendLine($"\tHeaders:");
-			foreach (var header in requestInfo.Headers)
-				logMessage.AppendLine($"\t\t{header.Key}: {header.Value}");
-			logMessage.AppendLine($"\tBody: {requestInfo.Body}");
-			logMessage.AppendLine($"Response:");
-			logMessage.AppendLine($"\tBody: {responceBodyContent}");
+        return content;
+    }
 
-			_logger.LogInformation(logMessage.ToString());
-		}
-		else
-		{
-			await _next.Invoke(context);
-		}
-	}
+    private async Task Log(HttpRequest request, HttpResponse response)
+    {
+        var requestBodyContent = await ReadStreamAsync(request.Body);
+        var responseBodyContent = await ReadStreamAsync(response.Body);
+
+        var logModel = new LogModel(
+            DateTime.UtcNow,
+            request.GetDisplayUrl(),
+            request.Headers,
+            requestBodyContent,
+            responseBodyContent);
+
+        Log(logModel);
+    }
+
+    private void Log(LogModel model)
+    {
+        var logMessage = new StringBuilder();
+
+        logMessage.AppendLine($"{Environment.NewLine}Request: ");
+        logMessage.AppendLine($"\tTimestamp: {model.Timestamp}");
+        logMessage.AppendLine($"\tUrl: {model.Url}");
+        logMessage.AppendLine($"\tHeaders:");
+        foreach (var header in model.Headers)
+        {
+            logMessage.AppendLine($"\t\t{header.Key}: {header.Value}");
+        }
+        logMessage.AppendLine($"\tBody: {model.RequestBody}");
+        logMessage.AppendLine($"Response:");
+        logMessage.AppendLine($"\tBody: {model.ResponseBody}");
+
+        _logger.LogInformation(logMessage.ToString());
+    }
+
+    private sealed record LogModel(
+        DateTime Timestamp,
+        string Url,
+        IDictionary<string, StringValues> Headers,
+        string RequestBody,
+        string ResponseBody
+    );
 }

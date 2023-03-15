@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Route256.Week1.Homework.PriceCalculator.Api.ActionFilters;
 
-public sealed class ExceptionFilterAttribute: Attribute, IExceptionFilter
+public sealed class ExceptionFilterAttribute : Attribute, IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
@@ -14,7 +14,7 @@ public sealed class ExceptionFilterAttribute: Attribute, IExceptionFilter
             case ValidationException exception:
                 HandleBadRequest(context, exception);
                 return;
-                
+
             default:
                 HandlerInternalError(context);
                 return;
@@ -24,7 +24,7 @@ public sealed class ExceptionFilterAttribute: Attribute, IExceptionFilter
     private static void HandlerInternalError(ExceptionContext context)
     {
         var jsonResult = new JsonResult(new ErrorResponse(
-            HttpStatusCode.InternalServerError, 
+            HttpStatusCode.InternalServerError,
             "Возникла ошибка, уже чиним"));
         jsonResult.StatusCode = (int)HttpStatusCode.InternalServerError;
         context.Result = jsonResult;
@@ -34,9 +34,9 @@ public sealed class ExceptionFilterAttribute: Attribute, IExceptionFilter
     {
         var jsonResult = new JsonResult(
             new ErrorResponse(
-            HttpStatusCode.BadRequest, 
+            HttpStatusCode.BadRequest,
             exception.Message));
-        
+
         jsonResult.StatusCode = (int)HttpStatusCode.BadRequest;
         context.Result = jsonResult;
     }

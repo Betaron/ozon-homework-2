@@ -5,14 +5,14 @@ namespace Route256.Week1.Homework.PriceCalculator.Api.Dal.Repositories.Interface
 public interface IStorageRepository
 {
     /// <summary>
-    /// Добавляет информацию о расчете стоимости доставки товара.
+    /// Р”РѕР±Р°РІР»СЏРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЂР°СЃС‡РµС‚Рµ СЃС‚РѕРёРјРѕСЃС‚Рё РґРѕСЃС‚Р°РІРєРё С‚РѕРІР°СЂР°.
     /// </summary>
-    /// <param name="entity">Товар</param>
+    /// <param name="entity">РўРѕРІР°СЂ</param>
     void Save(StorageEntity entity);
 
     /// <summary>
-    /// Запрашивает список сохраненных записей 
-    /// о расчетах стоимости доставки.
+    /// Р—Р°РїСЂР°С€РёРІР°РµС‚ СЃРїРёСЃРѕРє СЃРѕС…СЂР°РЅРµРЅРЅС‹С… Р·Р°РїРёСЃРµР№ 
+    /// Рѕ СЂР°СЃС‡РµС‚Р°С… СЃС‚РѕРёРјРѕСЃС‚Рё РґРѕСЃС‚Р°РІРєРё.
     /// </summary>
     IReadOnlyList<StorageEntity> Query();
 }
